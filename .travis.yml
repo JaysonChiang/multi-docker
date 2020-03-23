@@ -6,14 +6,14 @@ before_install:
   - docker build -t jaysonchiang/react-test -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run jaysonchiang/react-test npm test -- --coverage
+  - docker run -e CI=true jaysonchiang/react-test npm test
 
 after_success:
   - docker build -t jaysonchiang/multi-client ./client
   - docker build -t jaysonchiang/multi-nginx ./nginx
   - docker build -t jaysonchiang/multi-server ./server
   - docker build -t jaysonchiang/multi-worker ./worker
-  
+
   # Log in to the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
 
